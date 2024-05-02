@@ -1,0 +1,6 @@
+export:
+    mongodump --uri $RO_MONGODB_URI
+
+import:
+    mongosh $MONGODB_URI create_indexes.mongodb.js
+    mongorestore --uri $MONGODB_URI dump/celebrity_1000_embeddings/celeb_images.bson
