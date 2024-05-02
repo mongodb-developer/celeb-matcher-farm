@@ -4,4 +4,4 @@ build:
 # Run this to recompile requirements.txt when requirements.ini changes.
 update-deps:
     pip-compile --strip-extras requirements.ini
-    pip install -r requirements.txt
+    PIP_REQUIRE_VIRTUALENV=1 pip install -r requirements.txt

@@ -22,6 +22,9 @@ services:
     ports:
       - "8002:3000"
     command: "npm start"
+    env_file:
+    - path: ./.env
+      required: true
   backend:
     image: celeb-matcher/backend
     build: ./backend

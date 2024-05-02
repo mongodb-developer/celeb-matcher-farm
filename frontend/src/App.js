@@ -15,6 +15,9 @@ function App() {
   const [orientation, setOrientation] = React.useState(
     isLandscape() ? "landscape" : "portrait"
   );
+  const [loading, setLoading] = React.useState(false);
+  const [lookalikes, setLookalikes] = React.useState(null);
+  const [description, setDescription] = React.useState(null);
   const onOrientationChange = () => {
     console.log("Orientation Change", isLandscape());
     setOrientation(isLandscape() ? "landscape" : "portrait");
@@ -44,6 +47,18 @@ function App() {
     aspectRatio,
   };
 
+  const uploadHandler = async () => {
+    setLoading(true);
+    const result = await fetch("/api/search");
+    const data = await result.json();
+    setLoading(false);
+
+    setDescription(data.description);
+    setLookalikes(data.images);
+
+    console.log("Done");
+  };
+
   return (
     <div className="App">
       <h1>Celebrity Lookalike!</h1>
@@ -68,7 +83,26 @@ function App() {
           </button>
         )}
       </Webcam>
-      {<PhotoPreview imgSrc={imgSrc} />}
+
+      {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
+      {loading && <div>Loading ...</div>}
+
+      {description && (
+        <div class="description">
+          <h2>Results:</h2>
+          <p>{description}</p>
+        </div>
+      )}
+
+      {lookalikes &&
+        lookalikes.map((imageData, index) => {
+          return (
+            <div key={index} className="lookalike">
+              <h2>You look like...</h2>
+              <img src={"data:image/jpeg;base64, " + imageData} />
+            </div>
+          );
+        })}
     </div>
   );
 }
