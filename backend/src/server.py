@@ -14,10 +14,9 @@ from pymongo import MongoClient
 # from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import FastAPI
 
-MONGODB_URI = os.environ.get("MONGODB_ATLAS_URI")
-AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
-AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
-
+MONGODB_URI = os.environ["MONGODB_URI"]
+AWS_ACCESS_KEY = os.environ["AWS_ACCESS_KEY"]
+AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
 
 class Bedrock:
     def __init__(self, aws_access_key, aws_secret_key, region="us-east-1"):
@@ -196,9 +195,9 @@ app = FastAPI(lifecycle=lifecycle, debug=True)
 #     return images, description
 
 
-@app.get("/")
+@app.get("/api")
 async def index():
-    return "Hello!"
+    return "hello"
 
 
 def main(argv=sys.argv[1:]):
