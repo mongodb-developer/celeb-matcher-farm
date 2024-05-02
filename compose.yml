@@ -22,9 +22,6 @@ services:
     ports:
       - "8002:3000"
     command: "npm start"
-    env_file:
-    - path: ./.envrc
-      required: true
   backend:
     image: celeb-matcher/backend
     build: ./backend
@@ -36,5 +33,5 @@ services:
       - "8003:3001"
     command: "python src/server.py"
     env_file:
-    - path: ./.envrc
+    - path: ./.env
       required: true
