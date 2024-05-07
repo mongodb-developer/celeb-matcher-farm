@@ -5,6 +5,7 @@ import os
 import io
 import boto3
 import json
+from typing import Annotated
 import uvicorn
 
 from contextlib import asynccontextmanager
@@ -13,7 +14,9 @@ from pathlib import Path
 from pymongo import MongoClient
 
 # from motor.motor_asyncio import AsyncIOMotorClient
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
+from pydantic import BaseModel
+
 
 MONGODB_URI = os.environ["MONGODB_URI"]
 AWS_ACCESS_KEY = os.environ["AWS_ACCESS_KEY"]
@@ -146,12 +149,18 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan, debug=True)
 
 
+class SearchPayload(BaseModel):
+    img: str
+
+
 # Main function to start image search
-@app.get("/api/search")
-def image_search():  # image: Image, text: str | None):
-    image = None
+@app.post("/api/search")
+def image_search(payload: SearchPayload):  # image: Image, text: str | None):
+    image_bytes = io.BytesIO(base64.b64decode(payload.img.split(",", 1)[1]))
     text = None
-    image = Image.open(Path(__file__).parent.parent / "tmp/sample_image.jpg")
+
+    image = Image.open(image_bytes)
+    # image = Image.open(Path(__file__).parent.parent / "tmp/sample_image.jpg")
 
     bedrock: Bedrock = app.bedrock
 

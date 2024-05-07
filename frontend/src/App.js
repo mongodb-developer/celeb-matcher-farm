@@ -49,7 +49,15 @@ function App() {
 
   const uploadHandler = async () => {
     setLoading(true);
-    const result = await fetch("/api/search");
+    const result = await fetch("/api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        img: imgSrc,
+      }),
+    });
     const data = await result.json();
     setLoading(false);
 
@@ -87,13 +95,6 @@ function App() {
       {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
       {loading && <div>Loading ...</div>}
 
-      {description && (
-        <div class="description">
-          <h2>Results:</h2>
-          <p>{description}</p>
-        </div>
-      )}
-
       {lookalikes &&
         lookalikes.map((imageData, index) => {
           return (
@@ -103,6 +104,13 @@ function App() {
             </div>
           );
         })}
+
+      {description && (
+        <div class="description">
+          <h2>Description:</h2>
+          <p>{description}</p>
+        </div>
+      )}
     </div>
   );
 }
