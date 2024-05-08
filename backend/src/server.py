@@ -20,6 +20,7 @@ AWS_ACCESS_KEY = os.environ["AWS_ACCESS_KEY"]
 AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
 DEBUG = os.environ["DEBUG"].strip().lower() in {"1", "true", "on", "yes"}
 
+
 class Bedrock:
     def __init__(self, aws_access_key, aws_secret_key, region="us-east-1"):
         self._runtime = boto3.client(
