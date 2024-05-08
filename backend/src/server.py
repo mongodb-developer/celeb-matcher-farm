@@ -18,7 +18,7 @@ from pydantic import BaseModel
 MONGODB_URI = os.environ["MONGODB_URI"]
 AWS_ACCESS_KEY = os.environ["AWS_ACCESS_KEY"]
 AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
-DEBUG = os.environ["DEBUG"].strip().lower() in {"1", "true", "on", "yes"}
+DEBUG = os.environ.get("DEBUG", "").strip().lower() in {"1", "true", "on", "yes"}
 
 
 class Bedrock:
