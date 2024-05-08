@@ -5,22 +5,20 @@ import os
 import io
 import boto3
 import json
-from typing import Annotated
 import uvicorn
 
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 from pymongo import MongoClient
 
-# from motor.motor_asyncio import AsyncIOMotorClient
-from fastapi import FastAPI, Body
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 
 MONGODB_URI = os.environ["MONGODB_URI"]
 AWS_ACCESS_KEY = os.environ["AWS_ACCESS_KEY"]
 AWS_SECRET_KEY = os.environ["AWS_SECRET_KEY"]
+DEBUG = os.environ["DEBUG"].strip().lower() in {"1", "true", "on", "yes"}
 
 class Bedrock:
     def __init__(self, aws_access_key, aws_secret_key, region="us-east-1"):
@@ -130,7 +128,6 @@ class Bedrock:
 async def lifespan(app: FastAPI):
     app.client = client = MongoClient(MONGODB_URI)
     app.db = database = client.get_default_database()
-    # db_name = "celebrity_1000_embeddings"
     collection_name = "celeb_images"
     app.celeb_images = database.get_collection(collection_name)
 
@@ -146,7 +143,7 @@ async def lifespan(app: FastAPI):
     app.client.close()
 
 
-app = FastAPI(lifespan=lifespan, debug=True)
+app = FastAPI(lifespan=lifespan, debug=DEBUG)
 
 
 class SearchPayload(BaseModel):
@@ -216,7 +213,7 @@ async def index():
 
 
 def main(argv=sys.argv[1:]):
-    uvicorn.run("server:app", host="0.0.0.0", port=3001, reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=3001, reload=DEBUG)
 
 
 if __name__ == "__main__":

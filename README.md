@@ -16,6 +16,7 @@ You need to set the following variables:
 | **MONGODB_URI**    | The connection string (URI) for a MongoDB Atlas cluster. The connection string must contain the name of the database you want to connect to! |
 | **AWS_ACCESS_KEY** | An AWS access key with permission to use the Bedrock service.                                                                                |
 | **AWS_SECRET_KEY** | The secret key associated with AWS_ACCESS_KEY.                                                                                               |
+| **DEBUG**          | Set this to "true" to enable stack traces and reload. Do **not** enable in production.                                                       |
 
 Once you've set those, you can spin up the application with:
 
