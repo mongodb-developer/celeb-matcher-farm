@@ -106,7 +106,7 @@ class Bedrock:
                             },
                             {
                                 "type": "text",
-                                "text": "Please let the user know how his first image is similar to the other 3 and which one is the most similar?",
+                                "text": "Please let the user know how their first image is similar to the other 3 and which one is the most similar?",
                             },
                         ],
                     }
@@ -208,13 +208,11 @@ def standardize_image(image_b64: str) -> str:
     return base64.b64encode(img_bytes.getvalue()).decode("utf-8")
 
 
-@app.get("/api")
-async def index():
-    return app.celeb_images.find_one()
-
-
 def main(argv=sys.argv[1:]):
-    uvicorn.run("server:app", host="0.0.0.0", port=3001, reload=DEBUG)
+    try:
+        uvicorn.run("server:app", host="0.0.0.0", port=3001, reload=DEBUG)
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == "__main__":
