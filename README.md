@@ -1,6 +1,8 @@
 # Celebrity Matcher (FARM Stack) Demo
 
-This is a small FARM (FastAPI, React, MongoDB) project that illustrates integration with MongoDB's vector search, and AWS's Bedrock model hosting service.
+You can try out this Celebrity Matcher app at: https://mongodb-celeb-search.com/
+
+This is a small FARM (FastAPI, React, MongoDB) project that illustrates integration with vector search, and AWS's Bedrock model hosting service.
 
 ## Run it!
 
