@@ -1,38 +1,152 @@
-.App {
-  text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Base styles */
+.app {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #F9EBFF;
 }
 
-
-.Webcam {
-}
-
-.PhotoButton {
-  display: block;
-  margin: 10px auto;
-  padding: 10px;
-}
-
-.description {
-  background-color: white;
-  padding: 10px;
-  text-align: left;
-}
-
-.lookalike img {
+.app-heading {
+  text-align: center;
   width: 100%;
+  margin-bottom: 20px;
+}
+
+.results-area {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.loading img {
+  max-width: 100%;
+  max-height: 200px;
 }
 
 .lookalike {
-  margin: 10px;
+  margin-top: 20px;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  .lookalike-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .lookalike {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .lookalike:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .lookalike img {
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+
+  .lookalike p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+  }
+
+  .description {
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: center;
+    line-height: 1.8;
+    font-size: 18px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .lookalike-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .lookalike {
+    width: 100%;
+    max-width: 300px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .lookalike img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  .description {
+    width: 100%;
+    margin: 20px 0;
+    text-align: left;
+    line-height: 1.6;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+button, input {
+  margin: 15px auto;
+  display: block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #00684A;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+input[type="text"], input[type="file"] {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
