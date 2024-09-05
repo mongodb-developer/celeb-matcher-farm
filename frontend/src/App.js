@@ -1,10 +1,10 @@
-//import logo from './logo.svg';
 import "./App.css";
 
 import React from "react";
 import Webcam from "react-webcam";
 import CircumIcon from "@klarr-agency/circum-icons-react";
 import PhotoPreview from "./PhotoPreview";
+import IconButton from './components/IconButton';
 
 function isLandscape() {
   return window.screen.orientation.type.startsWith("landscape");
@@ -49,6 +49,8 @@ function App() {
 
   const uploadHandler = async () => {
     setLoading(true);
+    setLookalikes(null); // Clear previous results
+    setDescription(null); // Clear previous description
     const result = await fetch("/api/search", {
       method: "POST",
       headers: {
@@ -69,7 +71,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Celebrity Lookalike!</h1>
+      <h1 className="app-heading">Celebrity Lookalike!</h1>
       <p>First take a photo...</p>
       <Webcam
         audio={false}
@@ -80,37 +82,46 @@ function App() {
         className="Webcam"
       >
         {({ getScreenshot }) => (
-          <button
-            className="PhotoButton"
+          <IconButton
+            aria-label="Take photo"
             onClick={() => {
               console.log(navigator.mediaDevices.getSupportedConstraints());
               setImgSrc(getScreenshot());
             }}
           >
             <CircumIcon name="camera" />
-          </button>
+          </IconButton>
         )}
       </Webcam>
 
       {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
-      {loading && <div>Loading ...</div>}
+      
+      <div className="results-area">
+        {loading ? (
+          <div className="loading">
+            <img src="/loading-explain.gif" alt="Loading..." />
+          </div>
+        ) : (
+          <>
+            {lookalikes &&
+              lookalikes.map((imageData, index) => {
+                return (
+                  <div key={index} className="lookalike">
+                    <h2>You look like...</h2>
+                    <img src={"data:image/jpeg;base64, " + imageData} alt="Lookalike" />
+                  </div>
+                );
+              })}
 
-      {lookalikes &&
-        lookalikes.map((imageData, index) => {
-          return (
-            <div key={index} className="lookalike">
-              <h2>You look like...</h2>
-              <img src={"data:image/jpeg;base64, " + imageData} />
-            </div>
-          );
-        })}
-
-      {description && (
-        <div class="description">
-          <h2>Description:</h2>
-          <p>{description}</p>
-        </div>
-      )}
+            {description && (
+              <div className="description">
+                <h2>Description:</h2>
+                <p>{description}</p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

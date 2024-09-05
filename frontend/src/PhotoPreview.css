@@ -36,3 +36,16 @@
   margin: 1em;
   padding: 1em;
 }
+
+@media (min-width: 768px) {
+  .PhotoPreview .frame {
+    max-width: 60%;
+    max-height: 60%;
+    margin: 20px auto;
+  }
+  
+  .PhotoPreview .image {
+    width: 100%;
+    height: auto;
+  }
+}
