@@ -1,8 +1,10 @@
 /* Base styles */
-.app {
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
@@ -47,6 +49,10 @@
     margin-bottom: 40px;
   }
 
+  video {
+    max-width: 500px;
+  }
+
   .lookalike {
     background-color: #ffffff;
     border-radius: 15px;
@@ -85,6 +91,12 @@
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+
+  .loading img {
+    max-width: 100%;
+    max-height: 400px;
+  }
+
 }
 
 /* Mobile styles */
