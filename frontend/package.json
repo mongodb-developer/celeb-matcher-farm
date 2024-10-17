@@ -5,6 +5,7 @@
   "dependencies": {
     "@leafygreen-ui/button": "^21.3.0",
     "@leafygreen-ui/card": "^11.0.0",
+    "@leafygreen-ui/checkbox": "^13.1.2",
     "@leafygreen-ui/icon": "^12.7.0",
     "@leafygreen-ui/logo": "^9.2.0",
     "@leafygreen-ui/typography": "^19.3.0",

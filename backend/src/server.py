@@ -6,6 +6,7 @@ import io
 import boto3
 import json
 import uvicorn
+import datetime
 
 from contextlib import asynccontextmanager
 
@@ -131,6 +132,7 @@ async def lifespan(app: FastAPI):
     app.db = database = client.get_default_database()
     collection_name = "celeb_images"
     app.celeb_images = database.get_collection(collection_name)
+    app.conf_attendees = database.get_collection("attendees_images")
 
     pong = database.command("ping")
     if int(pong["ok"]) != 1:
@@ -149,11 +151,14 @@ app = FastAPI(lifespan=lifespan, debug=DEBUG)
 
 class SearchPayload(BaseModel):
     img: str
+    compareWithOtherAttendees: bool
 
 
 # Main function to start image search
 @app.post("/api/search")
 def image_search(payload: SearchPayload):  # image: Image, text: str | None):
+    compareWithOtherAttendees = payload.compareWithOtherAttendees
+
     image_bytes = io.BytesIO(base64.b64decode(payload.img.split(",", 1)[1]))
     text = None
 
@@ -175,6 +180,8 @@ def image_search(payload: SearchPayload):  # image: Image, text: str | None):
     img_base64_str = img_base64.decode("utf-8")
     body = bedrock.construct_body(img_base64_str, text)
     embedding = app.bedrock.get_embedding(body)
+
+    expiryDate = datetime.datetime.now() + datetime.timedelta(days=7)
 
     docs = app.celeb_images.aggregate(
         [
@@ -202,10 +209,44 @@ def image_search(payload: SearchPayload):  # image: Image, text: str | None):
 
     description = bedrock.generate_image_description(imagesData, img_base64_str)
 
+    similarAttendees = []
+
+    if compareWithOtherAttendees:
+        attendeesDocs = app.conf_attendees.aggregate(
+            [
+                {
+                    "$vectorSearch": {
+                        "index": "attendee_index",
+                        "path": "embeddings",
+                        "queryVector": embedding,
+                        "numCandidates": 15,
+                        "limit": 3,
+                    }
+                },
+                {"$project": {"image": 1, "name": 1}},
+            ]
+        )
+
+        for doc in attendeesDocs:
+            imageData = {
+                "image": standardize_image(doc["image"]),
+            }
+            similarAttendees.append(imageData)
+
+        # Add the image to the collection
+        app.conf_attendees.insert_one(
+            {
+                "embeddings": embedding,
+                "image": img_base64_str,
+                "expiryDate": expiryDate,
+            }
+        )
+
     return {
         "description": description,
         "docs": docs,
         "images": imagesData,
+        "similarAttendees": similarAttendees,
     }
 
 
