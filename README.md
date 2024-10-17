@@ -8,6 +8,8 @@ This is a small FARM (FastAPI, React, MongoDB) project that illustrates integrat
 
 You can run the development version with [Docker Compose].
 
+### Environment Variables
+
 First, you must configure the application, using a `.env` file,
 in the root directory of the project. (The one that contains `compose.yml`).
 
@@ -19,6 +21,23 @@ You need to set the following variables:
 | **AWS_ACCESS_KEY** | An AWS access key with permission to use the Bedrock service.                                                                                |
 | **AWS_SECRET_KEY** | The secret key associated with AWS_ACCESS_KEY.                                                                                               |
 | **DEBUG**          | Set this to "true" to enable stack traces and reload. Do **not** enable in production.                                                       |
+
+### Install dependencies
+You will need to ensure you install the dependencies for both the frontend and backend applications, using the same images as the docker compose containers.
+
+For the front end, run:
+
+```shell
+docker run -it --rm --name nodetest -v .:/opt/app -w /opt/app/frontend node:22 /bin/bash -c "rm -rf ./node_modules && npm install"
+```
+
+If you've ever used another version of the Celebrity Matcher (MERN, Go, C#), you may need to force a rebuild of the backend image.
+
+```shell
+docker compose up --build --force-recreate
+```
+
+### Running the application
 
 Once you've set those, you can spin up the application with:
 
