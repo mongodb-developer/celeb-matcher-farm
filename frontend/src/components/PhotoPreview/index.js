@@ -1,7 +1,7 @@
 import "./PhotoPreview.css";
 
 import React from "react";
-import CircumIcon from "@klarr-agency/circum-icons-react";
+import Button from "@leafygreen-ui/button";
 
 function PhotoPreview({ imgSrc, onClick }) {
   const showing = imgSrc !== null;
@@ -9,9 +9,11 @@ function PhotoPreview({ imgSrc, onClick }) {
     <div className="PhotoPreview">
       <div className={showing ? "frame showing" : "frame"}>
         <img src={imgSrc} className="image" alt="You, possibly." />
-        <button className="upload" onClick={onClick}>
+        <p style={{textAlign: "center"}}>
+        <Button variant="primary" onClick={onClick}>
           Find Your Celebrity Lookalike!
-        </button>
+        </Button>
+        </p>
       </div>
     </div>
   );
