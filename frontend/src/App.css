@@ -40,12 +40,14 @@
   margin-top: 20px;
 }
 
+
 .celeblookalike {
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 10px;
 }
+
 .celeblookalike img {
   width: 200px;
   height: 200px;
