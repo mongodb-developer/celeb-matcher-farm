@@ -95,7 +95,7 @@ function App() {
       </Webcam>
 
       {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
-      
+
       <div className="results-area">
         {loading ? (
           <div className="loading">
@@ -108,7 +108,8 @@ function App() {
                 return (
                   <div key={index} className="lookalike">
                     <h2>You look like...</h2>
-                    <img src={"data:image/jpeg;base64, " + imageData} alt="Lookalike" />
+                    <img src={"data:image/jpeg;base64, " + imageData.image} alt="Lookalike" />
+                    <h3>{imageData.name}</h3>
                   </div>
                 );
               })}

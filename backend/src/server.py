@@ -59,7 +59,7 @@ class Bedrock:
         response_body = json.loads(response.get("body").read())
         return response_body["embedding"]
 
-    def generate_image_description(self, images_base64_strs, image_base64):
+    def generate_image_description(self, images, image_base64):
         """
         Generate image description using Claude 3 Sonnet
         """
@@ -85,7 +85,7 @@ class Bedrock:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/jpeg",
-                                    "data": images_base64_strs[0],
+                                    "data": images[0]["image"],
                                 },
                             },
                             {
@@ -93,7 +93,7 @@ class Bedrock:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/jpeg",
-                                    "data": images_base64_strs[1],
+                                    "data": images[1]["image"],
                                 },
                             },
                             {
@@ -101,7 +101,7 @@ class Bedrock:
                                 "source": {
                                     "type": "base64",
                                     "media_type": "image/jpeg",
-                                    "data": images_base64_strs[2],
+                                    "data": images[2]["image"],
                                 },
                             },
                             {
@@ -187,17 +187,25 @@ def image_search(payload: SearchPayload):  # image: Image, text: str | None):
                     "limit": 3,
                 }
             },
-            {"$project": {"image": 1}},
+            {"$project": {"image": 1, "name": 1}},
         ]
     )
 
-    images = [standardize_image(doc["image"]) for doc in docs]
+    imagesData = []
 
-    description = bedrock.generate_image_description(images, img_base64_str)
+    for doc in docs:
+        imageData = {
+            "image": standardize_image(doc["image"]),
+            "name": doc["name"],
+        }
+        imagesData.append(imageData)
+
+    description = bedrock.generate_image_description(imagesData, img_base64_str)
 
     return {
         "description": description,
-        "images": images,
+        "docs": docs,
+        "images": imagesData,
     }
 
 
