@@ -25,7 +25,8 @@ function App() {
   const [loading, setLoading] = React.useState(false);
   const [lookalikes, setLookalikes] = React.useState(null);
   const [similarAttendees, setSimilarAttendees] = React.useState();
-  const [compareWithOtherAttendees, setCompareWithOtherAttendees] = React.useState(true);
+  const [compareWithOtherAttendees, setCompareWithOtherAttendees] =
+    React.useState(true);
   const [description, setDescription] = React.useState(null);
   const onOrientationChange = () => {
     setOrientation(isLandscape() ? "landscape" : "portrait");
@@ -60,7 +61,7 @@ function App() {
     setDescription(null);
     setSimilarAttendees(null);
     setCompareWithOtherAttendees(true);
-  }
+  };
 
   const uploadHandler = async () => {
     reset();
@@ -85,37 +86,41 @@ function App() {
 
   return (
     <div className="App">
-      <Logo></Logo><H1 className="app-heading">Celebrity Lookalike!</H1>
+      <Logo></Logo>
+      <H1 className="app-heading">Celebrity Lookalike!</H1>
       <Card>
-      <p><Body baseFontSize={16}>First take a photo...</Body></p>
-      <Webcam
-        audio={false}
-        screenshotFormat="image/jpeg"
-        forceScreenshotSourceSize={true}
-        videoConstraints={videoConstraints}
-        width="100%"
-        className="Webcam"
-      >
-        {({ getScreenshot }) => (
-          <p style={{"textAlign": "center"}}>
-          <Button
-            aria-label="Take photo"
-            onClick={() => {
-              setImgSrc(getScreenshot());
-            }}
-            variant="primary"
-          >
-            <Icon glyph="Camera" size={32} />
-          </Button>
-          </p>
-        )}
-      </Webcam>
-      <Checkbox
-        label="I agree to compare my image with other attendees"
-        description="All images are destroyed after the event"
-        onChange={(e) => setCompareWithOtherAttendees(e.target.checked)}
-        checked={compareWithOtherAttendees}
-      />
+        <p>
+          <Body baseFontSize={16}>First take a photo...</Body>
+        </p>
+        <Webcam
+          audio={false}
+          screenshotFormat="image/jpeg"
+          forceScreenshotSourceSize={true}
+          videoConstraints={videoConstraints}
+          width="100%"
+          className="Webcam"
+        >
+          {({ getScreenshot }) => (
+            <p style={{ textAlign: "center" }}>
+              <Button
+                aria-label="Take photo"
+                onClick={() => {
+                  reset();
+                  setImgSrc(getScreenshot());
+                }}
+                variant="primary"
+              >
+                <Icon glyph="Camera" size={32} />
+              </Button>
+            </p>
+          )}
+        </Webcam>
+        <Checkbox
+          label="I agree to compare my image with other attendees"
+          description="All images are destroyed after the event"
+          onChange={(e) => setCompareWithOtherAttendees(e.target.checked)}
+          checked={compareWithOtherAttendees}
+        />
       </Card>
 
       {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
@@ -127,14 +132,14 @@ function App() {
           </div>
         ) : (
           <>
-            {lookalikes &&
-              <Lookalikes lookalikes={lookalikes} />
-            }
+            {lookalikes && <Lookalikes lookalikes={lookalikes} />}
             <p></p>
-            {similarAttendees &&
+
+            {similarAttendees && (
               <SimilarAttendees similarAttendees={similarAttendees} />
-            }
+            )}
             <p></p>
+
             {description && (
               <Card>
                 <H2>Description:</H2>
