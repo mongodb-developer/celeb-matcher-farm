@@ -1,10 +1,15 @@
 import "./App.css";
+import { H1, H2, Body } from "@leafygreen-ui/typography";
+import Card from "@leafygreen-ui/card";
+import Logo from "@leafygreen-ui/logo";
+import Button from "@leafygreen-ui/button";
+import Icon from "@leafygreen-ui/icon";
+
+import Lookalikes from "./components/Lookalikes";
+import PhotoPreview from "./components/PhotoPreview";
 
 import React from "react";
 import Webcam from "react-webcam";
-import CircumIcon from "@klarr-agency/circum-icons-react";
-import PhotoPreview from "./PhotoPreview";
-import IconButton from './components/IconButton';
 
 function isLandscape() {
   return window.screen.orientation.type.startsWith("landscape");
@@ -19,7 +24,6 @@ function App() {
   const [lookalikes, setLookalikes] = React.useState(null);
   const [description, setDescription] = React.useState(null);
   const onOrientationChange = () => {
-    console.log("Orientation Change", isLandscape());
     setOrientation(isLandscape() ? "landscape" : "portrait");
   };
 
@@ -47,10 +51,13 @@ function App() {
     aspectRatio,
   };
 
+  const reset = () => {
+    setLookalikes(null);
+    setDescription(null);
+  }
+
   const uploadHandler = async () => {
     setLoading(true);
-    setLookalikes(null); // Clear previous results
-    setDescription(null); // Clear previous description
     const result = await fetch("/api/search", {
       method: "POST",
       headers: {
@@ -65,14 +72,13 @@ function App() {
 
     setDescription(data.description);
     setLookalikes(data.images);
-
-    console.log("Done");
   };
 
   return (
     <div className="App">
-      <h1 className="app-heading">Celebrity Lookalike!</h1>
-      <p>First take a photo...</p>
+      <Logo></Logo><H1 className="app-heading">Celebrity Lookalike!</H1>
+      <Card>
+      <p><Body baseFontSize={16}>First take a photo...</Body></p>
       <Webcam
         audio={false}
         screenshotFormat="image/jpeg"
@@ -82,17 +88,21 @@ function App() {
         className="Webcam"
       >
         {({ getScreenshot }) => (
-          <IconButton
+          <p style={{"textAlign": "center"}}>
+          <Button
             aria-label="Take photo"
             onClick={() => {
-              console.log(navigator.mediaDevices.getSupportedConstraints());
+              reset();
               setImgSrc(getScreenshot());
             }}
+            variant="primary"
           >
-            <CircumIcon name="camera" />
-          </IconButton>
+            <Icon glyph="Camera" size={32} />
+          </Button>
+          </p>
         )}
       </Webcam>
+      </Card>
 
       {<PhotoPreview imgSrc={imgSrc} onClick={uploadHandler} />}
 
@@ -104,21 +114,16 @@ function App() {
         ) : (
           <>
             {lookalikes &&
-              lookalikes.map((imageData, index) => {
-                return (
-                  <div key={index} className="lookalike">
-                    <h2>You look like...</h2>
-                    <img src={"data:image/jpeg;base64, " + imageData.image} alt="Lookalike" />
-                    <h3>{imageData.name}</h3>
-                  </div>
-                );
-              })}
+              <Lookalikes lookalikes={lookalikes} />
+            }
+            <p></p>
+
 
             {description && (
-              <div className="description">
-                <h2>Description:</h2>
-                <p>{description}</p>
-              </div>
+              <Card>
+                <H2>Description:</H2>
+                <Body baseFontSize={16}>{description}</Body>
+              </Card>
             )}
           </>
         )}
