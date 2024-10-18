@@ -8,7 +8,7 @@
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #F9EBFF;
+  background-color: #f9ebff;
 }
 
 .app-heading {
@@ -40,7 +40,6 @@
   margin-top: 20px;
 }
 
-
 .celeblookalike {
   display: flex;
   flex-direction: row;
@@ -49,6 +48,23 @@
 }
 
 .celeblookalike img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.similarattendees_row {
+  display: flex;
+}
+
+.similarattendees_col {
+  flex: 33.33%;
+  padding: 5px;
+}
+
+.similarattendees_col img {
   width: 200px;
   height: 200px;
   object-fit: cover;
@@ -116,7 +132,6 @@ h3 {
     max-width: 100%;
     max-height: 400px;
   }
-
 }
 
 /* Mobile styles */
@@ -157,12 +172,13 @@ h3 {
   }
 }
 
-button, input {
+button,
+input {
   margin: 15px auto;
   display: block;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #00684A;
+  background-color: #00684a;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -170,11 +186,13 @@ button, input {
   transition: background-color 0.3s ease;
 }
 
-button:hover, input[type="submit"]:hover {
+button:hover,
+input[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-input[type="text"], input[type="file"] {
+input[type="text"],
+input[type="file"] {
   width: 100%;
   max-width: 300px;
   padding: 10px;
