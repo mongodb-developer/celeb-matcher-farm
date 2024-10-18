@@ -203,7 +203,7 @@ def image_search(payload: SearchPayload):  # image: Image, text: str | None):
     for doc in docs:
         imageData = {
             "image": standardize_image(doc["image"]),
-            "name": doc["name"],
+            "name": doc.get("name"),
         }
         imagesData.append(imageData)
 
