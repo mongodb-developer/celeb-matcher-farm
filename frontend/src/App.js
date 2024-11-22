@@ -60,7 +60,6 @@ function App() {
     setLookalikes(null);
     setDescription(null);
     setSimilarAttendees(null);
-    setCompareWithOtherAttendees(true);
   };
 
   const uploadHandler = async () => {
@@ -82,6 +81,7 @@ function App() {
     setDescription(data.description);
     setLookalikes(data.images);
     setSimilarAttendees(data.similarAttendees);
+    setCompareWithOtherAttendees(true);
   };
 
   return (
@@ -135,7 +135,7 @@ function App() {
             {lookalikes && <Lookalikes lookalikes={lookalikes} />}
             <p></p>
 
-            {similarAttendees && (
+            {(similarAttendees && similarAttendees.length > 0) && (
               <SimilarAttendees similarAttendees={similarAttendees} />
             )}
             <p></p>
