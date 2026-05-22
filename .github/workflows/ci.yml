@@ -102,6 +102,9 @@ jobs:
 
           echo "Smoke checks passed"
 
+      - name: Install runtime test dependencies
+        run: pip install Pillow fastapi pymongo pydantic uvicorn
+
       - name: Run repository runtime smoke test
         shell: bash
         run: |
