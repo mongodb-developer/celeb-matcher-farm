@@ -56,8 +56,6 @@ jmespath==1.0.1
     #   botocore
 markupsafe==2.1.5
     # via jinja2
-motor==3.4.0
-    # via -r requirements.ini
 orjson==3.10.2
     # via fastapi
 pillow==10.3.0
@@ -73,8 +71,8 @@ pydantic-extra-types==2.7.0
     # via fastapi
 pydantic-settings==2.2.1
     # via fastapi
-pymongo==4.7.1
-    # via motor
+pymongo==4.13.1
+    # via -r requirements.ini
 python-dateutil==2.9.0.post0
     # via botocore
 python-dotenv==1.0.1
